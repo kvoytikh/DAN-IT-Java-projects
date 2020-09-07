@@ -2,24 +2,25 @@ package com.company;
 
 import com.company.interfaces.HumanCreator;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Family implements HumanCreator {
     private Woman mother;
     private Man father;
-    private Human[] children;
-    private Pet pet;
+    private List<Human> children;
+    private Set<Pet> pet;
 
-    public Human[] getChildren() {
+    public List<Human> getChildren() {
         return children;
     }
+
     Random random = new Random();
-    public Pet getPet() {
+
+    public Set<Pet> getPet() {
         return pet;
     }
 
-    public Family(Woman mother, Man father, Human[] children, Pet pet) {
+    public Family(Woman mother, Man father, List<Human> children, Set<Pet> pet) {
         this.mother = mother;
         this.father = father;
         this.children = children;
@@ -28,31 +29,20 @@ public class Family implements HumanCreator {
         father.setFamily(this);
     }
     public void addChild(Human child) {
-        Human[] newArrayOfChildren = Arrays.copyOf(children, children.length + 1);
-        newArrayOfChildren[newArrayOfChildren.length - 1] = child;
-
-        for (Human iChl : newArrayOfChildren) {
-            iChl.setFamily(this);
-        }
-        this.children = newArrayOfChildren;
+        children.add(child);
     }
     /*----delete by index of array------*/
     public void deleteChild(int index) {
-        if(children.length == 0) {
+        if(children.size() == 0) {
             throw new IllegalArgumentException("There is not children");
         }
-        if(children.length - 1 < index) {
+        if(children.size() - 1 < index) {
             throw new ArrayIndexOutOfBoundsException("There is not this index");
         }
-        Human[] newArrayOfChildren = Arrays.copyOf(children, children.length - 1);
-
-        System.arraycopy(children, 0, newArrayOfChildren, 0, index);
-        System.arraycopy(children, index + 1, newArrayOfChildren, index, children.length - index - 1);
-
-        this.children = newArrayOfChildren;
+       children.remove(index);
     }
     public int countFamily() {
-        return 2 + children.length;
+        return 2 + children.size();
     }
 
     private boolean random(){
@@ -92,14 +82,7 @@ public class Family implements HumanCreator {
         if (!(obj instanceof Family))
             return false;
         Family family = (Family)obj;
-        if (pet == family.getPet()) {
-            Human[] chld = family.getChildren();
-            
-            for (int i = 0; i < children.length; i++) {
-                if (!(children[i] == chld[i])) {
-                    return false;
-                }
-            }
+        if (pet == family.getPet() && children == family.getChildren()) {
             return true;
         }
         return false;
@@ -110,26 +93,14 @@ public class Family implements HumanCreator {
     }
 
     public void deleteChildByName(Human person) {
-        if(children.length == 0) {
+        if(children.size() == 0) {
             throw new IllegalArgumentException("There is not children");
         }
-        Human[] newArrayOfChildren = Arrays.copyOf(children, children.length - 1);
-
-        int index = 0;
-        for(int i = 0; i < children.length; i++) {
-            if((children[i].equals(person)) && (children[i].hashCode() == person.hashCode())) {
-                index = i;
-            }
-        }
-
-        System.arraycopy(children, 0, newArrayOfChildren, 0, index);
-        System.arraycopy(children, index + 1, newArrayOfChildren, index, children.length - index - 1);
-
-        this.children = newArrayOfChildren;
+       children.remove(person);
     }
     @Override
     public String toString() {
-        return "Mother: " + mother + "\nFather: " + father + "\nChildren: " + Arrays.toString(children);
+        return "Mother: " + mother + "\nFather: " + father + "\nChildren: " + Arrays.toString(children.toArray());
     }
     @Override
     protected void finalize() {

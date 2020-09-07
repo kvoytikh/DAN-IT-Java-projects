@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Arrays;
+
 public enum Species {
     DOG(false, 4, true),
     DOMESTICCAT(false, 4, true),
@@ -27,4 +29,6 @@ public enum Species {
     public boolean getHasFur() {
         return hasFur;
     }
+
+
 }

@@ -5,11 +5,6 @@ public final class Man extends Human {
         super(name, surname, year, iq);
     }
 
-    @Override
-    public void greetPet() {
-        super.greetPet();
-    }
-
     public void repairCar() {
         System.out.println("I should repair my car");
     }

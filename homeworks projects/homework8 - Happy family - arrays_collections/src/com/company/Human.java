@@ -1,13 +1,18 @@
 package com.company;
 
+import java.util.Map;
+import java.util.Random;
+
 public class Human{
         private String name;
         private String surname;
         private int year;
         private int iq;
-        private String[][] schedule;
+        private Map<String, String> schedule;
 
         private Family family;
+
+        Random random = new Random();
 
         public String getName() {
             return name;
@@ -23,9 +28,9 @@ public class Human{
 
         public int getIq() { return iq; }
 
-    public String[][] getSchedule() {
-                        return schedule;
-                    }
+        public Map<String, String> getSchedule() {
+            return schedule;
+        }
 
         public Family getFamily() {
             return family;
@@ -45,40 +50,13 @@ public class Human{
                 this.iq = iq;
             }
         }
-        public Human(String name, String surname, int year, int iq, Family family, String[][] schedule) {
+        public Human(String name, String surname, int year, int iq, Family family,
+                     Map<String, String> schedule) {
             this(name, surname, year, iq);
             this.family = family;
             this.schedule = schedule;
         }
 
-        public void greetPet () {
-            System.out.println("Привет, " + family.getPet().getNickname());
-        }
-
-        public void describePet() {
-            System.out.print( "У меня есть " + family.getPet().getSpecies() + ", ему " + family.getPet().getAge() + " лет, он ");
-            if (family.getPet().getTrickLevel() > 50) {
-                System.out.println("очень хитрый");
-            } else if (family.getPet().getTrickLevel() < 50) {
-                System.out.println("почти не хитрый");
-            }
-        }
-
-        public boolean feedPet(boolean flag) {
-            if(flag) {
-                System.out.println("Хм... покормлю ка я " + family.getPet().getNickname());
-                return true;
-            }
-
-            Random random = new Random();
-            int num = random.nextInt(101);
-            if(family.getPet().getTrickLevel() > num) {
-                System.out.println("Хм... покормлю ка я " + family.getPet().getNickname() + "a");
-            }
-            System.out.println("Думаю," + family.getPet().getNickname() + " не голоден.");
-
-            return false;
-        }
 
     @Override
     public boolean equals(Object obj) {
@@ -88,15 +66,7 @@ public class Human{
             return false;
         Human human = (Human) obj;
         if (name == human.getName() && surname == human.getSurname() &&  year == human.getYear()
-            && family == human.getFamily()) {
-            String[][] sched = human.getSchedule();
-
-            for (int i = 0; i < sched.length; i++) {
-                for(int j = 0; j < sched[0].length; j++ )
-                if (!(schedule[i][j] == sched[i][j])) {
-                    return false;
-                }
-            }
+            && family == human.getFamily() && schedule == human.getSchedule()) {
             return true;
         }
         return false;
@@ -110,7 +80,7 @@ public class Human{
     @Override
     public String toString() {
             return "Human{name='" + name + "', surname=" + surname + "', year=" + year + ", iq=" + iq + " schedule = "
-                    + Arrays.deepToString(schedule);
+                    + schedule;
         }
 
     @Override

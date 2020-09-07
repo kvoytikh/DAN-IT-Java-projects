@@ -24,16 +24,13 @@ public abstract class Pet {
     public int getAge() {
         return age;
     }
-    {
+
+    public HashSet<String> getHabits() {
         return habits;
     }
-    public HashSet<String> getHabits()
 
-    public Pet(Species species) {
-        this.species = Species.UNKNOWN;
-    }
 
-    public Pet(String nickname, int age, int trickLevel, HashSet<String> habits) {
+    public Pet(Species species, String nickname, int age, int trickLevel, HashSet<String> habits) {
         this.age = age;
 
         if (this.trickLevel > 100 || this.trickLevel < 0) {
@@ -41,7 +38,12 @@ public abstract class Pet {
         } else {
             this.trickLevel = trickLevel;
         }
-
+        if(species != Species.DOG && species != Species.DOMESTICCAT && species != Species.FISH && species != Species.ROBOCAT) {
+            this.species = Species.UNKNOWN;
+        } else {
+            this.species = species;
+        }
+        this.nickname = nickname;
         this.habits = habits;
     }
 
@@ -59,14 +61,7 @@ public abstract class Pet {
             return false;
         Pet pet = (Pet)obj;
         if (species == pet.getSpecies() && nickname == pet.getNickname() && age == pet.getAge()
-                && trickLevel == pet.getTrickLevel()) {
-            HashSet<> hab = pet.getHabits();
-
-            for (int i = 0; i < hab.length; i++) {
-                if (!(habits[i] == hab[i])) {
-                    return false;
-                }
-            }
+                && trickLevel == pet.getTrickLevel() && habits.equals(pet.getHabits())) {
             return true;
         }
         return false;
@@ -76,7 +71,6 @@ public abstract class Pet {
     public int hashCode(){
         return habits.hashCode();
     }
-
     @Override
     public String toString() {
         String pcanFly;
@@ -94,7 +88,7 @@ public abstract class Pet {
         }
 
         return species + "{nickname='" + nickname +"', age=" + age + ", trickLevel=" + trickLevel + ", habits="
-                + Arrays.toString(habits) + ", can fly:" + pcanFly + ", number of legs: " + ", has fur: " + pHasFur + "}";
+                + Arrays.toString(habits.toArray()) + ", can fly:" + pcanFly + ", number of legs: " + legs + ", has fur: " + pHasFur + "}";
     }
 
     @Override
